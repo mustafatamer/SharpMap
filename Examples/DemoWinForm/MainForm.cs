@@ -67,16 +67,16 @@ namespace DemoWinForm
 
         private static void registerKnownColors(Dictionary<string, Color> colorTable)
         {
-            foreach (string colorName in Enum.GetNames(typeof (KnownColor)))
+            foreach (string colorName in Enum.GetNames(typeof(KnownColor)))
             {
-                KnownColor color = (KnownColor) Enum.Parse(typeof (KnownColor), colorName);
+                KnownColor color = (KnownColor)Enum.Parse(typeof(KnownColor), colorName);
                 colorTable[colorName] = Color.FromKnownColor(color);
             }
         }
 
         private void registerLayerFactories()
         {
-//			ConfigurationManager.GetSection("LayerFactories");
+            //			ConfigurationManager.GetSection("LayerFactories");
             _layerFactoryCatalog[".shp"] = new ShapeFileLayerFactory();
         }
 
@@ -163,8 +163,8 @@ namespace DemoWinForm
             for (var polyIndex = 0; polyIndex < numPolygons; polyIndex++)
             {
                 var vertices = new GeoPoint[5];
-                var upperLeft = new GeoPoint(rndGen.NextDouble()*1000, rndGen.NextDouble()*1000);
-                var sideLength = rndGen.NextDouble()*50;
+                var upperLeft = new GeoPoint(rndGen.NextDouble() * 1000, rndGen.NextDouble() * 1000);
+                var sideLength = rndGen.NextDouble() * 50;
 
                 // Make a square
                 vertices[0] = new GeoPoint(upperLeft.X, upperLeft.Y);
@@ -172,7 +172,7 @@ namespace DemoWinForm
                 vertices[2] = new GeoPoint(upperLeft.X + sideLength, upperLeft.Y - sideLength);
                 vertices[3] = new GeoPoint(upperLeft.X, upperLeft.Y - sideLength);
                 vertices[4] = upperLeft;
-                
+
                 geometry.Add(factory.CreatePolygon(factory.CreateLinearRing(vertices), null));
             }
         }
@@ -185,7 +185,7 @@ namespace DemoWinForm
                 var numVerticies = rndGen.Next(4, 15);
                 var vertices = new GeoPoint[numVerticies];
 
-                var lastPoint = new GeoPoint(rndGen.NextDouble()*1000, rndGen.NextDouble()*1000);
+                var lastPoint = new GeoPoint(rndGen.NextDouble() * 1000, rndGen.NextDouble() * 1000);
                 vertices[0] = lastPoint;
 
                 for (var vertexIndex = 1; vertexIndex < numVerticies; vertexIndex++)
@@ -205,7 +205,7 @@ namespace DemoWinForm
             var numPoints = rndGen.Next(10, 100);
             for (var pointIndex = 0; pointIndex < numPoints; pointIndex++)
             {
-                var point = new GeoPoint(rndGen.NextDouble()*1000, rndGen.NextDouble()*1000);
+                var point = new GeoPoint(rndGen.NextDouble() * 1000, rndGen.NextDouble() * 1000);
                 geometry.Add(factory.CreatePoint(point));
             }
         }
@@ -273,7 +273,7 @@ namespace DemoWinForm
 
         private object getLayerTypeIcon(Type type)
         {
-            if (type == typeof (VectorLayer))
+            if (type == typeof(VectorLayer))
             {
                 return Resources.polygon;
             }
@@ -335,32 +335,32 @@ namespace DemoWinForm
 
         private void AddLayerToolStripButton_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { LoadLayer(); });
+            BeginInvoke((MethodInvoker)delegate { LoadLayer(); });
         }
 
         private void RemoveLayerToolStripButton_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { RemoveLayer(); });
+            BeginInvoke((MethodInvoker)delegate { RemoveLayer(); });
         }
 
         private void AddLayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { LoadLayer(); });
+            BeginInvoke((MethodInvoker)delegate { LoadLayer(); });
         }
 
         private void RemoveLayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { RemoveLayer(); });
+            BeginInvoke((MethodInvoker)delegate { RemoveLayer(); });
         }
 
         private void ZoomToExtentsToolStripButton_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { zoomToExtents(); });
+            BeginInvoke((MethodInvoker)delegate { zoomToExtents(); });
         }
 
         private void PanToolStripButton_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { changeMode(MapBox.Tools.Pan); });
+            BeginInvoke((MethodInvoker)delegate { changeMode(MapBox.Tools.Pan); });
         }
 
         private void QueryModeToolStripButton_Click(object sender, EventArgs e)
@@ -418,16 +418,16 @@ namespace DemoWinForm
 
         private void LayersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate
-                                            {
-                                                changeUIOnLayerSelectionChange();
+            BeginInvoke((MethodInvoker)delegate
+                                           {
+                                               changeUIOnLayerSelectionChange();
 
-                                                if (LayersDataGridView.SelectedRows.Count > 0)
-                                                {
-                                                    MainMapImage.QueryLayerIndex =
-                                                        LayersDataGridView.SelectedRows[0].Index;
-                                                }
-                                            });
+                                               if (LayersDataGridView.SelectedRows.Count > 0)
+                                               {
+                                                   MainMapImage.QueryLayerIndex =
+                                                       LayersDataGridView.SelectedRows[0].Index;
+                                               }
+                                           });
         }
 
         private void MainMapImage_MouseMove(GeoPoint WorldPos, MouseEventArgs ImagePos)
@@ -437,7 +437,31 @@ namespace DemoWinForm
 
         private void AddNewRandomGeometryLayer_Click(object sender, EventArgs e)
         {
-            BeginInvoke((MethodInvoker) delegate { addNewRandomGeometryLayer(); });
+            BeginInvoke((MethodInvoker)delegate { addNewRandomGeometryLayer(); });
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            ExampleCodeSnippets.GeoJsonExample geoJsonExample = new ExampleCodeSnippets.GeoJsonExample();
+          VectorLayer l=  geoJsonExample.TestGeoJson(geoJsonExample._jsons);
+            KeyValuePair<string, Color> colorEntry = getColorEntry(5);
+            l.Style = new SharpMap.Styles.VectorStyle() ;
+            l.Style.Line = new Pen(colorEntry.Value);
+           // l.Style.Line = new Pen(colorEntry.Value);
+            addLayer(l);
+
+
+            MainMapImage.Map.Layers.Add(new SharpMap.Layers.TileLayer(
+                    BruTile.Predefined.KnownTileSources.Create(
+                        BruTile.Predefined.KnownTileSource.BingHybrid), "OSM"));
+            changeUIOnLayerSelectionChange();
+           // MainMapImage.Map.ZoomToExtents();
+            //MainMapImage.Refresh();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1595,7 +1595,7 @@ namespace SharpMap
             foreach (var l in layersCollection)
             {
 
-                //Tries to get bb. Fails on some specific shapes and Mercator projects (World.shp)
+                //Bb almaya çalýþýr. Bazý belirli þekillerde ve Mercator projelerinde baþarýsýz olur (World.shp)
                 Envelope bb;
                 try
                 {

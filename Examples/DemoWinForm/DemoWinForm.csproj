@@ -29,6 +29,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\SharpMap\SharpMap.csproj" />
         <ProjectReference Include="..\..\SharpMap.UI\SharpMap.UI.csproj" />
+        <ProjectReference Include="..\ExampleCodeSnippets\ExampleCodeSnippets.csproj" />
     </ItemGroup>
 
     <ItemGroup>
